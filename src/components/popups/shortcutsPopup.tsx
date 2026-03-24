@@ -63,7 +63,7 @@ export const ShortcutsPopupApp: React.FC<ShortcutsPopupAppProps> = ({
     { key: 'e', description: 'Manage hooks with AI (from this popup)' },
     ...(hasSidebarLayout ? [{ key: 'L', description: 'Reset sidebar layout' }] : []),
     { key: 'q', description: 'Quit dmux' },
-    { key: '↑↓←→', description: 'Navigate panes' },
+    { key: 'j/k ↑↓←→', description: 'Navigate panes' },
     { key: 'Enter', description: 'Select / open menu' },
     { key: 'Esc', description: 'Cancel / close' },
     { key: '?', description: 'Show this help' },

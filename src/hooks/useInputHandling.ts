@@ -1225,12 +1225,13 @@ export function useInputHandling(params: UseInputHandlingParams) {
     }
 
     // Handle directional navigation with spatial awareness based on card grid layout
-    if (key.upArrow || key.downArrow || key.leftArrow || key.rightArrow) {
+    // Supports arrow keys and vim-style j/k
+    if (key.upArrow || key.downArrow || key.leftArrow || key.rightArrow || input === "j" || input === "k") {
       let targetIndex: number | null = null
 
-      if (key.upArrow) {
+      if (key.upArrow || input === "k") {
         targetIndex = findCardInDirection(selectedIndex, "up")
-      } else if (key.downArrow) {
+      } else if (key.downArrow || input === "j") {
         targetIndex = findCardInDirection(selectedIndex, "down")
       } else if (key.leftArrow) {
         targetIndex = findCardInDirection(selectedIndex, "left")
