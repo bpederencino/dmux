@@ -10,7 +10,7 @@ export const DMUX_REMOTE_PANE_ACTION_TABLE = 'dmux-pane-action';
 export const DMUX_REMOTE_PANE_MODE_OPTION = '@dmux_remote_pane_mode';
 
 export const REMOTE_PANE_ACTION_SHORTCUTS = [
-  'j',
+  'v',
   'm',
   'x',
   'a',

@@ -40,7 +40,7 @@ export const ShortcutsPopupApp: React.FC<ShortcutsPopupAppProps> = ({
 
   const shortcuts = [
     { key: 'Alt+Shift+M', description: 'Open the pane menu for the focused tmux pane' },
-    { key: 'j', description: 'Jump to selected pane' },
+    { key: 'v', description: 'View selected pane' },
     { key: 'm', description: 'Open pane menu' },
     { key: 'x', description: 'Close selected pane' },
     { key: 'h', description: 'Hide/show selected pane' },
@@ -63,7 +63,8 @@ export const ShortcutsPopupApp: React.FC<ShortcutsPopupAppProps> = ({
     { key: 'e', description: 'Manage hooks with AI (from this popup)' },
     ...(hasSidebarLayout ? [{ key: 'L', description: 'Reset sidebar layout' }] : []),
     { key: 'q', description: 'Quit dmux' },
-    { key: '↑↓←→', description: 'Navigate panes' },
+    { key: 'j/k ↑↓←→', description: 'Navigate panes' },
+    { key: '/', description: 'Search panes' },
     { key: 'Enter', description: 'Select / open menu' },
     { key: 'Esc', description: 'Cancel / close' },
     { key: '?', description: 'Show this help' },
