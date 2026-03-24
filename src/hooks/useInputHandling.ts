@@ -1011,7 +1011,7 @@ export function useInputHandling(params: UseInputHandlingParams) {
         }
         await setDevSourceFromPane(selectedPane)
         return
-      case "j":
+      case "v":
         StateManager.getInstance().setDebugMessage(
           `Jumping to pane: ${getPaneDisplayName(selectedPane)}`
         )
@@ -1403,7 +1403,7 @@ export function useInputHandling(params: UseInputHandlingParams) {
       return
     } else if (
       selectedIndex < panes.length
-      && (input === "j" || input === "x")
+      && (input === "v" || input === "x")
     ) {
       await executePaneShortcut(input as RemotePaneActionShortcut, panes[selectedIndex])
       return

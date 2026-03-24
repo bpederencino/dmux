@@ -164,7 +164,7 @@ export const ACTION_REGISTRY: Record<PaneAction, ActionMetadata> = {
     label: 'View',
     description: 'Jump to this pane',
     icon: '👁',
-    shortcut: 'j',
+    shortcut: 'v',
   },
   [PaneAction.SET_SOURCE]: {
     id: PaneAction.SET_SOURCE,
