@@ -103,6 +103,8 @@ const DmuxApp: React.FC<DmuxAppProps> = ({
 
   /* panes state moved to usePanes */
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [isSearchMode, setIsSearchMode] = useState(false)
   const { statusMessage, setStatusMessage } = useStatusMessages()
   const [isCreatingPane, setIsCreatingPane] = useState(false)
   const {
@@ -1199,6 +1201,10 @@ const DmuxApp: React.FC<DmuxAppProps> = ({
     projectRoot: sessionProjectRoot,
     projectActionItems: projectActionLayout.actionItems,
     findCardInDirection,
+    searchQuery,
+    setSearchQuery,
+    isSearchMode,
+    setIsSearchMode,
   })
 
   // Calculate available height for content (terminal height - footer lines - active status messages)
@@ -1272,6 +1278,7 @@ const DmuxApp: React.FC<DmuxAppProps> = ({
           fallbackProjectRoot={projectRoot || process.cwd()}
           fallbackProjectName={projectName}
           isProjectBusy={isProjectHeaderBusy}
+          searchQuery={isSearchMode ? searchQuery : ""}
         />
 
         {showCommandPrompt && (

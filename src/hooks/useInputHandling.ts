@@ -124,6 +124,12 @@ interface UseInputHandlingParams {
 
   // Navigation
   findCardInDirection: (currentIndex: number, direction: "up" | "down" | "left" | "right") => number | null
+
+  // Search
+  searchQuery: string
+  setSearchQuery: (value: string) => void
+  isSearchMode: boolean
+  setIsSearchMode: (value: boolean) => void
 }
 
 /**
@@ -176,6 +182,10 @@ export function useInputHandling(params: UseInputHandlingParams) {
     projectRoot,
     projectActionItems,
     findCardInDirection,
+    searchQuery,
+    setSearchQuery,
+    isSearchMode,
+    setIsSearchMode,
   } = params
 
   const layoutRefreshDebounceRef = useRef<NodeJS.Timeout | null>(null)
@@ -1131,6 +1141,64 @@ export function useInputHandling(params: UseInputHandlingParams) {
       return
     }
 
+    // Handle search mode - captures all input except Escape/Enter/navigation
+    if (isSearchMode) {
+      if (key.escape) {
+        // Cancel search and restore previous selection
+        setSearchQuery("")
+        setIsSearchMode(false)
+        return
+      }
+      if (key.return) {
+        // Confirm selection and exit search
+        setIsSearchMode(false)
+        // Keep searchQuery briefly for visual feedback, then clear
+        setTimeout(() => setSearchQuery(""), 100)
+        return
+      }
+      // j/k and arrow keys cycle through matches during search
+      if (key.upArrow || key.downArrow || input === "j" || input === "k") {
+        const direction = (key.upArrow || input === "k") ? "up" : "down"
+        const targetIndex = findCardInDirection(selectedIndex, direction)
+        if (targetIndex !== null) {
+          setSelectedIndex(targetIndex)
+        }
+        return
+      }
+      if (key.backspace || key.delete) {
+        const newQuery = searchQuery.slice(0, -1)
+        setSearchQuery(newQuery)
+        // Jump to first match for the updated query
+        if (newQuery) {
+          const matchIndex = panes.findIndex(p => {
+            const name = (p.displayName || p.slug || "").toLowerCase()
+            const branch = (p.branchName || "").toLowerCase()
+            return name.includes(newQuery.toLowerCase()) || branch.includes(newQuery.toLowerCase())
+          })
+          if (matchIndex !== -1) {
+            setSelectedIndex(matchIndex)
+          }
+        }
+        return
+      }
+      // Any printable character adds to the search query
+      if (input && !key.ctrl && !key.meta) {
+        const newQuery = searchQuery + input
+        setSearchQuery(newQuery)
+        // Jump to first match
+        const matchIndex = panes.findIndex(p => {
+          const name = (p.displayName || p.slug || "").toLowerCase()
+          const branch = (p.branchName || "").toLowerCase()
+          return name.includes(newQuery.toLowerCase()) || branch.includes(newQuery.toLowerCase())
+        })
+        if (matchIndex !== -1) {
+          setSelectedIndex(matchIndex)
+        }
+        return
+      }
+      return
+    }
+
     // Handle quit confirm mode - ESC cancels it
     if (quitConfirmMode) {
       if (key.escape) {
@@ -1221,6 +1289,13 @@ export function useInputHandling(params: UseInputHandlingParams) {
           }
         }
       }
+      return
+    }
+
+    // Enter search mode with /
+    if (input === "/") {
+      setSearchQuery("")
+      setIsSearchMode(true)
       return
     }
 

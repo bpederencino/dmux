@@ -22,6 +22,7 @@ interface PanesGridProps {
   fallbackProjectRoot: string
   fallbackProjectName: string
   isProjectBusy?: (projectRoot: string) => boolean
+  searchQuery?: string
 }
 
 const PROJECT_BUSY_FRAMES = ['◴', '◷', '◶', '◵']
@@ -37,6 +38,7 @@ const PanesGrid: React.FC<PanesGridProps> = memo(({
   fallbackProjectRoot,
   fallbackProjectName,
   isProjectBusy,
+  searchQuery,
 }) => {
   const actionLayout = useMemo(
     () => buildProjectActionLayout(
@@ -218,6 +220,13 @@ const PanesGrid: React.FC<PanesGridProps> = memo(({
 
         return renderActionRow(actions, selectedIndex, true)
       })()}
+
+      {searchQuery !== undefined && searchQuery !== "" && (
+        <Box marginTop={1}>
+          <Text color="yellow">/{searchQuery}</Text>
+          <Text color="gray">_</Text>
+        </Box>
+      )}
     </Box>
   )
 })
